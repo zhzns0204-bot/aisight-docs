@@ -157,7 +157,7 @@
   .eyebrow.track-c { color: var(--track-c-ink); background: var(--track-c-soft); }
 
   h1 { font-size: clamp(27px, 3.2vw, 36px); line-height: 1.2; font-weight: 800; letter-spacing: -0.02em; margin: 0 0 14px; text-wrap: balance; color: var(--text); }
-  .lede { font-size: 17px; color: var(--text-muted); margin: 0 0 8px; }
+  .lede { font-size: 17px; color: var(--text-muted); margin: 0 0 8px; max-width: none; }
   h1 + .lede, h2 + .lede { margin-bottom: 22px; }
 
   h2 { font-size: 22px; font-weight: 800; letter-spacing: -0.015em; margin: 36px 0 6px; text-wrap: balance; color: var(--text); }
