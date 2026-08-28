@@ -1,0 +1,13 @@
+{
+  "name": "aisight-docs",
+  "private": true,
+  "description": "aisight 도움말 사이트 — /content(글) + /design(디자인)을 build.js로 조합해 정적 HTML을 만듭니다.",
+  "scripts": {
+    "build": "node build.js",
+    "preview": "node _serve.js"
+  },
+  "dependencies": {
+    "js-yaml": "^5.4.1",
+    "markdown-it": "^15.0.1"
+  }
+}

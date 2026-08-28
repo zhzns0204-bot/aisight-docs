@@ -46,7 +46,42 @@
     </button>
     <div class="content">
       <div class="crumbs"><a href="../index.html">aisight 도움말</a><span class="crumb-sep">›</span><a href="../o.html">구축·운영</a><span class="crumb-sep">›</span><span class="crumb-current">대시보드 자동 생성</span></div>
-      <div class="doc"><div class="eyebrow track-b">구축·운영</div><h1>대시보드 자동 생성</h1><ul><li>명시적인 지시 없이도 대화 맥락을 이해해 직전 조회 데이터로 대시보드를 자동 생성합니다.</li><li>생성 시 필요한 쿼리를 자동으로 만들어 DB에 저장합니다.</li></ul><div class="callout"><span class="callout-label">보안 차별점</span><p>일반적인 클라우드 LLM(Claude/GPT 등)과 달리, 대시보드 HTML을 생성하는 시점에는 데이터가 코드에 노출되지 않습니다. HTML을 화면에 띄우는 시점에 쿼리가 실행되어 데이터가 주입되므로, HTML 파일만 다운로드해서는 데이터가 유출되지 않습니다.</p></div><p>생성된 대시보드는 고유 URL이 발급되어 사내 포털에 연동할 수 있습니다. DB 기반 대시보드는 새로고침할 때마다 항상 최신 데이터를 반영하지만, 엑셀 기반 대시보드는 새로고침이 되지 않습니다. 현재 대시보드 디자인 템플릿은 1종이며, 상황별로 자동 선택되는 다양한 템플릿은 고도화 예정입니다.</p><p>만든 대시보드는 모두 '대시보드' 목록 화면 한 곳에 모여 '내 대시보드' 탭에서 한눈에 확인할 수 있고, 다른 사람이 공유한 대시보드는 '공유받은 대시보드' 탭에서 받아볼 수 있습니다.</p><p>같은 채팅창 안에서 두 가지 방식을 모두 쓸 수 있습니다 — 위처럼 대화 맥락만으로 즉석에서 자동 생성할 수도 있고, 더 정교한 레이아웃이 필요하면 아래 2단계 프롬프트로 이미지 목업부터 잡아갈 수도 있습니다.</p><h3>생성 방법 — 2단계 프롬프트</h3><p>대시보드를 만들 때는 아래 2단계 프롬프트를 순서대로 입력하면 됩니다.</p><h3>1단계. 목업(레이아웃) 생성</h3><p>원하는 대시보드 디자인 이미지를 업로드하고, 화면에 보이는 각 셀(수치가 표시되는 자리)마다 실제 수치를 텍스트로 그대로 입력해줍니다.</p><div class="callout"><span class="callout-label">입력 예시</span><p>"이 자리엔 WTD 수치값 OOO을 넣어줘"<br>"이 셀에는 OO값을 텍스트로 입력해줘"</p></div><p>이 단계에서는 대시보드의 <strong>구조·형태·디자인(레이아웃)</strong>만 먼저 잡습니다. 아직 실제 데이터 연결은 되어있지 않은 상태입니다.</p><h3>2단계. 데이터 연결</h3><p>1단계에서 만든 목업에 실제 데이터를 연결하는 단계입니다. 차트 섹션별로(1섹션, 2섹션, 3섹션…) 다음 내용을 구체적으로 명시해서 전달합니다.</p><ul><li>어떤 컬럼이 기준이 되는지</li><li>어떤 계산식을 사용하는지 (예: WTD 계산식 등)</li><li>계산식을 어떻게 산출·선정했는지</li></ul><div class="callout"><span class="callout-label">입력 예시</span><p>"이 컬럼은 OOO이고, 이 계산식(WTD)은 OO 방식으로 산출해줘"<br>"DB 스키마는 우리가 가진 걸 기준으로, 로직은 이 계산식대로 산출해줘"</p></div><div class="section-label">요약</div><div class="table-wrap"><table><thead><tr><th>단계</th><th>목적</th><th>입력 내용</th></tr></thead><tbody><tr><td>① 목업 생성</td><td>레이아웃·디자인 확정</td><td>이미지 + 셀별 텍스트 수치</td></tr><tr><td>② 데이터 연결</td><td>실데이터 반영</td><td>섹션별 계산식 + 사용 컬럼 지정</td></tr></tbody></table></div><div class="page-nav"><a class="page-nav-link prev" href="../o/chat.html"><span class="pn-dir">← 이전</span><span class="pn-title">질의응답이 동작하는 방식</span></a><a class="page-nav-link next" href="../o/files.html"><span class="pn-dir">다음 →</span><span class="pn-title">엑셀·파일 분석</span></a></div></div>
+      <div class="doc"><div class="eyebrow track-b">구축·운영</div><h1>대시보드 자동 생성</h1><ul>
+<li>명시적인 지시 없이도 대화 맥락을 이해해 직전 조회 데이터로 대시보드를 자동 생성합니다.</li>
+<li>생성 시 필요한 쿼리를 자동으로 만들어 DB에 저장합니다.</li>
+</ul><div class="callout"><span class="callout-label">보안 차별점</span><p>일반적인 클라우드 LLM(Claude/GPT 등)과 달리, 대시보드 HTML을 생성하는 시점에는 데이터가 코드에 노출되지 않습니다. HTML을 화면에 띄우는 시점에 쿼리가 실행되어 데이터가 주입되므로, HTML 파일만 다운로드해서는 데이터가 유출되지 않습니다.</p></div><p>생성된 대시보드는 고유 URL이 발급되어 사내 포털에 연동할 수 있습니다. DB 기반 대시보드는 새로고침할 때마다 항상 최신 데이터를 반영하지만, 엑셀 기반 대시보드는 새로고침이 되지 않습니다. 현재 대시보드 디자인 템플릿은 1종이며, 상황별로 자동 선택되는 다양한 템플릿은 고도화 예정입니다.</p>
+<p>만든 대시보드는 모두 '대시보드' 목록 화면 한 곳에 모여 '내 대시보드' 탭에서 한눈에 확인할 수 있고, 다른 사람이 공유한 대시보드는 '공유받은 대시보드' 탭에서 받아볼 수 있습니다.</p>
+<p>같은 채팅창 안에서 두 가지 방식을 모두 쓸 수 있습니다 — 위처럼 대화 맥락만으로 즉석에서 자동 생성할 수도 있고, 더 정교한 레이아웃이 필요하면 아래 2단계 프롬프트로 이미지 목업부터 잡아갈 수도 있습니다.</p>
+<h3>생성 방법 — 2단계 프롬프트</h3>
+<p>대시보드를 만들 때는 아래 2단계 프롬프트를 순서대로 입력하면 됩니다.</p>
+<h3>1단계. 목업(레이아웃) 생성</h3>
+<p>원하는 대시보드 디자인 이미지를 업로드하고, 화면에 보이는 각 셀(수치가 표시되는 자리)마다 실제 수치를 텍스트로 그대로 입력해줍니다.</p><div class="callout"><span class="callout-label">입력 예시</span><p>&quot;이 자리엔 WTD 수치값 OOO을 넣어줘&quot;<br>&quot;이 셀에는 OO값을 텍스트로 입력해줘&quot;</p></div><p>이 단계에서는 대시보드의 <strong>구조·형태·디자인</strong>(레이아웃)만 먼저 잡습니다. 아직 실제 데이터 연결은 되어있지 않은 상태입니다.</p>
+<h3>2단계. 데이터 연결</h3>
+<p>1단계에서 만든 목업에 실제 데이터를 연결하는 단계입니다. 차트 섹션별로(1섹션, 2섹션, 3섹션…) 다음 내용을 구체적으로 명시해서 전달합니다.</p>
+<ul>
+<li>어떤 컬럼이 기준이 되는지</li>
+<li>어떤 계산식을 사용하는지 (예: WTD 계산식 등)</li>
+<li>계산식을 어떻게 산출·선정했는지</li>
+</ul><div class="callout"><span class="callout-label">입력 예시</span><p>&quot;이 컬럼은 OOO이고, 이 계산식(WTD)은 OO 방식으로 산출해줘&quot;<br>&quot;DB 스키마는 우리가 가진 걸 기준으로, 로직은 이 계산식대로 산출해줘&quot;</p></div><div class="section-label">요약</div><div class="table-wrap"><table><thead>
+<tr>
+<th>단계</th>
+<th>목적</th>
+<th>입력 내용</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 목업 생성</td>
+<td>레이아웃·디자인 확정</td>
+<td>이미지 + 셀별 텍스트 수치</td>
+</tr>
+<tr>
+<td>② 데이터 연결</td>
+<td>실데이터 반영</td>
+<td>섹션별 계산식 + 사용 컬럼 지정</td>
+</tr>
+</tbody>
+</table></div><div class="page-nav"><a class="page-nav-link prev" href="../o/chat.html"><span class="pn-dir">← 이전</span><span class="pn-title">질의응답이 동작하는 방식</span></a><a class="page-nav-link next" href="../o/files.html"><span class="pn-dir">다음 →</span><span class="pn-title">엑셀·파일 분석</span></a></div></div>
     </div>
   </main>
 </div>
