@@ -139,9 +139,9 @@
   /* ---------- main content ---------- */
   main { min-width: 0; }
   .content { max-width: 100%; padding: 44px clamp(20px, 5vw, 72px) 120px; }
-  .doc { max-width: 720px; margin: 0 auto; }
+  .doc { max-width: 860px; margin: 0 auto; }
 
-  .crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-faint); margin-bottom: 22px; max-width: 720px; margin-left: auto; margin-right: auto; }
+  .crumbs { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-faint); margin-bottom: 22px; max-width: 860px; margin-left: auto; margin-right: auto; }
   .crumbs a { color: var(--text-muted); text-decoration: none; }
   .crumbs a:hover { color: var(--accent); text-decoration: underline; }
   .crumb-sep { color: var(--border); }
@@ -257,7 +257,7 @@
   .pn-title { font-size: 13.8px; font-weight: 700; }
   .page-nav-spacer { flex: 1; max-width: 48%; }
 
-  .footline { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-faint); max-width: 720px; margin-left: auto; margin-right: auto; }
+  .footline { margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 12.5px; color: var(--text-faint); max-width: 860px; margin-left: auto; margin-right: auto; }
 
   .about-hero { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; margin: 4px 0 24px; }
   .about-hero .lede { margin: 0; }
