@@ -70,6 +70,8 @@
     font-size: 15.5px;
     line-height: 1.65;
     -webkit-font-smoothing: antialiased;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
   a { color: var(--accent); }
   a:focus-visible, button:focus-visible, input:focus-visible {
@@ -95,7 +97,7 @@
   .sidebar::-webkit-scrollbar { width: 8px; }
   .sidebar::-webkit-scrollbar-thumb { background: rgba(20,150,150,0.14); border-radius: 8px; }
 
-  .brand { display: flex; align-items: baseline; gap: 8px; padding: 4px 10px 4px; text-decoration: none; }
+  .brand { display: flex; align-items: center; gap: 8px; padding: 4px 10px 4px; text-decoration: none; }
   .brand-mark { flex: none; display: block; }
   .brand-name { font-weight: 700; font-size: 16px; color: var(--sidebar-text); letter-spacing: -0.01em; }
   .brand-sub { display: block; font-size: 11.5px; color: var(--sidebar-text-dim); padding: 0 10px 16px; }
