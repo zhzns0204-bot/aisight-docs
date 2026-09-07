@@ -312,3 +312,126 @@
   .site-footer-logo-img { height: 34px; width: auto; display: block; }
   .site-footer-info p { margin: 0 0 6px; font-size: 12.8px; color: var(--text-faint); }
   .site-footer-copyright { margin: 12px 0 0; font-size: 12px; color: var(--text-faint); }
+
+  /* ===================== Trailhead형 유닛 (파일럿) ===================== */
+  .unit-layout { display: grid; grid-template-columns: minmax(0,1fr) 232px; gap: 40px; align-items: start; }
+  .unit-main { min-width: 0; }
+
+  .unit-rail {
+    position: sticky; top: 24px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 20px 18px; box-shadow: var(--shadow-sm);
+  }
+  .unit-rail-title { font-size: 11.5px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-faint); margin-bottom: 10px; }
+  .unit-rail-pct { font-family: 'IBM Plex Mono', monospace; font-size: 28px; font-weight: 700; color: var(--key-800); line-height: 1; margin-bottom: 4px; }
+  .unit-rail-sub { font-size: 12px; color: var(--text-faint); margin-bottom: 14px; }
+  .unit-rail-bar { height: 6px; border-radius: 999px; background: var(--key-30); overflow: hidden; margin-bottom: 18px; }
+  .unit-rail-bar-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--key-500), var(--key-800)); border-radius: 999px; transition: width 0.4s ease; }
+  .unit-rail-steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .unit-rail-step { display: flex; align-items: center; gap: 9px; font-size: 12.8px; color: var(--text-muted); }
+  .unit-rail-step-dot {
+    width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--border); flex: none;
+    display: flex; align-items: center; justify-content: center; font-size: 11px; color: transparent;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+  .unit-rail-step.done .unit-rail-step-dot { background: var(--key-600); border-color: var(--key-600); color: #fff; }
+  .unit-rail-step.done { color: var(--text); font-weight: 600; }
+  .unit-rail-score { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-faint); }
+  .unit-rail-score strong { display: block; font-size: 18px; color: var(--key-800); font-family: 'IBM Plex Mono', monospace; }
+  @media (max-width: 900px) {
+    .unit-layout { grid-template-columns: 1fr; gap: 20px; }
+    .unit-rail { position: static; order: -1; }
+  }
+
+  .unit-icon { width: 30px; height: 30px; flex: none; color: var(--key-600); }
+
+  .unit-objectives {
+    display: flex; gap: 16px; background: var(--key-30); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 22px 24px; margin: 22px 0 30px;
+  }
+  .unit-objectives-body h2 { margin: 2px 0 10px; font-size: 19px; }
+  .unit-objectives ul { margin: 0; padding-left: 0; list-style: none; max-width: none; }
+  .unit-objectives li { position: relative; padding-left: 26px; margin-bottom: 8px; font-size: 15px; font-weight: 600; color: var(--text); }
+  .unit-objectives li::before {
+    content: ""; position: absolute; left: 0; top: 4px; width: 16px; height: 16px; border-radius: 5px;
+    background: var(--key-600);
+  }
+  .unit-objectives li::after {
+    content: ""; position: absolute; left: 4px; top: 7.5px; width: 8px; height: 4.5px;
+    border-left: 2px solid #fff; border-bottom: 2px solid #fff; transform: rotate(-45deg);
+  }
+
+  .unit-handson {
+    background: var(--surface); border: 2px dashed var(--key-400); border-radius: var(--radius-lg);
+    padding: 26px 26px 24px; margin: 30px 0; text-align: center;
+  }
+  .unit-handson-icon { color: var(--key-600); margin: 0 auto 10px; }
+  .unit-handson h2 { font-size: 22px; margin: 0 0 6px; }
+  .unit-handson-lede { color: var(--text-muted); font-size: 14px; margin: 0 auto 18px; max-width: 46ch; }
+  .unit-handson-steps { text-align: left; max-width: 480px; margin: 0 auto 22px; padding-left: 0; list-style: none; counter-reset: unit-step; }
+  .unit-handson-steps li { counter-increment: unit-step; position: relative; padding: 0 0 12px 34px; font-size: 14.5px; }
+  .unit-handson-steps li::before {
+    content: counter(unit-step); position: absolute; left: 0; top: -1px; width: 24px; height: 24px;
+    border-radius: 50%; background: var(--key-800); color: #fff; font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center;
+  }
+  .unit-launch-btn {
+    display: inline-flex; align-items: center; gap: 8px; background: var(--key-600); color: #fff;
+    border: none; border-radius: 999px; padding: 13px 28px; font-size: 15px; font-weight: 700;
+    font-family: inherit; cursor: pointer; box-shadow: 0 6px 16px rgba(20,150,150,0.32);
+    transition: background 0.15s ease, transform 0.15s ease;
+  }
+  .unit-launch-btn:hover { background: var(--key-800); transform: translateY(-1px); }
+  .unit-launch-btn.done { background: var(--key-30); color: var(--key-800); box-shadow: none; }
+
+  .unit-modal-overlay {
+    position: fixed; inset: 0; background: rgba(10,20,20,0.5); display: flex; align-items: center;
+    justify-content: center; padding: 20px; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 0.18s ease;
+  }
+  .unit-modal-overlay.show { opacity: 1; pointer-events: auto; }
+  .unit-modal {
+    background: var(--surface); border-radius: var(--radius-lg); padding: 30px 28px 26px; max-width: 380px;
+    text-align: center; box-shadow: 0 24px 60px rgba(6,48,49,0.35); transform: translateY(8px); transition: transform 0.18s ease;
+  }
+  .unit-modal-overlay.show .unit-modal { transform: translateY(0); }
+  .unit-modal-icon { width: 44px; height: 44px; margin: 0 auto 14px; color: var(--key-600); }
+  .unit-modal h3 { margin: 0 0 8px; font-size: 18px; }
+  .unit-modal p { font-size: 13.8px; color: var(--text-muted); margin: 0 0 20px; }
+  .unit-modal-close {
+    background: var(--key-600); color: #fff; border: none; border-radius: 999px; padding: 10px 24px;
+    font-size: 13.8px; font-weight: 700; font-family: inherit; cursor: pointer;
+  }
+  .unit-modal-close:hover { background: var(--key-800); }
+
+  .unit-quiz { margin: 34px 0 10px; }
+  .unit-quiz > h2 { font-size: 22px; margin-bottom: 4px; }
+  .unit-quiz-intro { color: var(--text-muted); font-size: 14px; margin: 0 0 20px; }
+  .unit-quiz-q {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg);
+    padding: 22px 22px 20px; margin-bottom: 16px; box-shadow: var(--shadow-sm);
+  }
+  .unit-quiz-q-title { font-size: 15.5px; font-weight: 700; margin: 0 0 14px; }
+  .unit-quiz-options { display: flex; flex-direction: column; gap: 9px; margin-bottom: 4px; }
+  .unit-quiz-option {
+    text-align: left; font-family: inherit; font-size: 14px; color: var(--text); background: var(--surface-soft);
+    border: 1.5px solid var(--border); border-radius: 10px; padding: 12px 16px; cursor: pointer;
+    transition: border-color 0.12s ease, background 0.12s ease;
+  }
+  .unit-quiz-option:hover:not(:disabled) { border-color: var(--key-500); }
+  .unit-quiz-option:disabled { cursor: default; }
+  .unit-quiz-option.selected-wrong { border-color: #D9534F; background: #FBEAEA; color: #A33; }
+  .unit-quiz-option.correct-answer { border-color: var(--key-600); background: var(--key-30); color: var(--key-800); font-weight: 700; }
+  .unit-quiz-feedback { margin-top: 12px; padding: 12px 14px; border-radius: 10px; font-size: 13.5px; display: none; }
+  .unit-quiz-feedback.show { display: block; }
+  .unit-quiz-feedback.wrong { background: #FBEAEA; color: #A33; }
+  .unit-quiz-feedback.correct { background: var(--key-30); color: var(--key-800); }
+  .unit-quiz-feedback .pts { font-family: 'IBM Plex Mono', monospace; font-weight: 700; }
+  .unit-quiz-retry { margin-top: 10px; background: none; border: 1px solid var(--border); border-radius: 999px; padding: 7px 16px; font-size: 12.5px; font-family: inherit; cursor: pointer; color: var(--text-muted); }
+  .unit-quiz-retry:hover { border-color: var(--key-500); color: var(--key-800); }
+
+  .unit-complete-banner {
+    display: none; align-items: center; gap: 14px; background: var(--key-800); color: #fff;
+    border-radius: var(--radius-lg); padding: 20px 24px; margin: 24px 0 8px;
+  }
+  .unit-complete-banner.show { display: flex; }
+  .unit-complete-banner .big { font-size: 22px; }
+  .unit-complete-banner .sub { font-size: 13px; opacity: 0.85; }

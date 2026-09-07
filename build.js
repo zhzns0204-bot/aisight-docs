@@ -187,6 +187,70 @@ function renderTimeline(text) {
   ).join('') + '</div>';
 }
 
+// ---- ::: objectives ---- (learning objectives, "- " per line) — Trailhead형 유닛 파일럿
+const OBJECTIVES_ICON = '<svg class="unit-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="16" r="11.5"/><circle cx="16" cy="16" r="6.5"/><circle cx="16" cy="16" r="1.6" fill="currentColor" stroke="none"/></svg>';
+function renderObjectives(text) {
+  const items = text.split(/\r?\n/).map(l => l.replace(/^-\s*/, '').trim()).filter(Boolean);
+  return '<div class="unit-objectives">' + OBJECTIVES_ICON +
+    '<div class="unit-objectives-body"><h2>이 유닛을 마치면</h2><ul>' +
+    items.map(i => '<li>' + renderInline(i) + '</li>').join('') +
+    '</ul></div></div>';
+}
+
+// ---- ::: handson <button label> ---- (numbered steps, "N. " per line)
+const HANDSON_ICON = '<svg class="unit-icon unit-handson-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M11 6l14 10-14 10z"/></svg>';
+function renderHandsOn(text, args) {
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const steps = lines.map(l => l.replace(/^\d+\.\s*/, ''));
+  const label = (args || '실습 환경 열기').trim();
+  return '<div class="unit-handson">' + HANDSON_ICON +
+    '<h2>실습해보기</h2>' +
+    '<p class="unit-handson-lede">아래 순서대로 직접 따라 해보면 개념이 훨씬 잘 남습니다.</p>' +
+    '<ol class="unit-handson-steps">' + steps.map(s => '<li>' + renderInline(s) + '</li>').join('') + '</ol>' +
+    '<button type="button" class="unit-launch-btn">' + escAttrText(label) + '</button>' +
+    '</div>' +
+    '<div class="unit-modal-overlay">' +
+    '<div class="unit-modal">' +
+    '<svg class="unit-modal-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="9" width="22" height="16" rx="2.5"/><path d="M5 13h22M11 9V6.5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2V9"/></svg>' +
+    '<h3>실습 환경 준비 중입니다</h3>' +
+    '<p>실제 플레이그라운드가 연결되면 이 화면에서 바로 실습할 수 있어요. 그때까지는 위 단계를 참고해 실제 화면에서 따라 해보세요.</p>' +
+    '<button type="button" class="unit-modal-close">확인했어요</button>' +
+    '</div></div>';
+}
+function escAttrText(s) { return String(s).replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+// ---- ::: quiz ---- (Q:/A:/A*:/> blocks separated by blank lines)
+function renderQuiz(text) {
+  const blocks = text.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  const questions = blocks.map(block => {
+    const lines = block.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    const qLine = lines.find(l => /^Q:/.test(l));
+    const question = qLine ? qLine.replace(/^Q:\s*/, '') : '';
+    const options = lines.filter(l => /^A\*?:/.test(l)).map(l => ({
+      correct: /^A\*:/.test(l),
+      text: l.replace(/^A\*?:\s*/, '')
+    }));
+    const explainLine = lines.find(l => /^>/.test(l));
+    const explain = explainLine ? explainLine.replace(/^>\s*/, '') : '';
+    return { question, options, explain };
+  });
+  const qHtml = questions.map(q =>
+    '<div class="unit-quiz-q" data-explain="' + escAttrHtml(renderInline(q.explain)) + '">' +
+    '<div class="unit-quiz-q-title">' + renderInline(q.question) + '</div>' +
+    '<div class="unit-quiz-options">' +
+    q.options.map(o => '<button type="button" class="unit-quiz-option" data-correct="' + (o.correct ? 'true' : 'false') + '">' + renderInline(o.text) + '</button>').join('') +
+    '</div>' +
+    '<div class="unit-quiz-feedback"></div>' +
+    '</div>'
+  ).join('');
+  return '<div class="unit-quiz"><h2>확인 퀴즈</h2>' +
+    '<p class="unit-quiz-intro">아래 문제를 풀어보면서 배운 내용을 점검해보세요. 틀려도 다시 시도할 수 있어요 (단, 다시 시도할수록 획득 점수는 줄어듭니다).</p>' +
+    qHtml + '</div>' +
+    '<div class="unit-complete-banner"><div>🎉</div><div><div class="big">유닛을 완료했습니다!</div>' +
+    '<div class="sub">획득 점수 <span class="score-val">0</span>점</div></div></div>';
+}
+function escAttrHtml(s) { return String(s).replace(/"/g, '&quot;'); }
+
 // ---- ::: diagram <name> ---- (aria: / caption: lines; svg loaded from /design/diagrams/<name>.svg)
 const diagramCache = {};
 function renderDiagram(text, args) {
@@ -220,6 +284,9 @@ function renderBody(raw, pageId) {
       case 'stats': return renderStats(c.text);
       case 'timeline': return renderTimeline(c.text);
       case 'diagram': return renderDiagram(c.text, c.args);
+      case 'objectives': return renderObjectives(c.text);
+      case 'handson': return renderHandsOn(c.text, c.args);
+      case 'quiz': return renderQuiz(c.text);
       default: throw new Error('Unknown directive ::: ' + c.name + ' on page ' + pageId);
     }
   }).join('');
@@ -253,6 +320,7 @@ function loadContentTree() {
           pillClass: fm.data.pillClass || undefined,
           icon: fm.data.icon || undefined,
           heroLogo: !!fm.data.hero_logo,
+          unit: !!fm.data.unit,
           order: fm.data.order === undefined ? 0 : fm.data.order,
           bodyRaw: fm.content,
           children: []
@@ -398,8 +466,10 @@ function renderFullPage(id) {
   } else if (node.intro) {
     doc += '<p class="lede">' + node.intro + '</p>';
   }
-  if (node.body) doc += node.body;
-  doc += renderChildGrid(node.children, node.id === '', id, entry.pillClass);
+
+  let mainHtml = '';
+  if (node.body) mainHtml += node.body;
+  mainHtml += renderChildGrid(node.children, node.id === '', id, entry.pillClass);
 
   if (node.id !== '') {
     const sibs = entry.siblingIds;
@@ -407,11 +477,19 @@ function renderFullPage(id) {
     const prevId = idx > 0 ? sibs[idx - 1] : null;
     const nextId = idx < sibs.length - 1 ? sibs[idx + 1] : null;
     if (prevId || nextId) {
-      doc += '<div class="page-nav">' +
+      mainHtml += '<div class="page-nav">' +
         (prevId ? '<a class="page-nav-link prev" href="' + hrefBetween(id, prevId) + '"><span class="pn-dir">← 이전</span><span class="pn-title">' + escText(INDEX[prevId].node.title) + '</span></a>' : '<span class="page-nav-spacer"></span>') +
         (nextId ? '<a class="page-nav-link next" href="' + hrefBetween(id, nextId) + '"><span class="pn-dir">다음 →</span><span class="pn-title">' + escText(INDEX[nextId].node.title) + '</span></a>' : '<span class="page-nav-spacer"></span>') +
         '</div>';
     }
+  }
+
+  let extraScripts = '';
+  if (node.unit) {
+    doc += '<div class="unit-layout"><div class="unit-main">' + mainHtml + '</div>' + renderUnitRail() + '</div>';
+    extraScripts = '<script src="' + assetHref(id, 'assets/unit.js') + '"></script>';
+  } else {
+    doc += mainHtml;
   }
 
   const treeHtml = renderNodeList(TREE.children, 0, id, id);
@@ -421,6 +499,7 @@ function renderFullPage(id) {
     .replace(/\{\{PAGE_DESC\}\}/g, escAttr(desc))
     .replace(/\{\{CSS_HREF\}\}/g, assetHref(id, 'assets/style.css'))
     .replace(/\{\{NAV_JS_HREF\}\}/g, assetHref(id, 'assets/nav.js'))
+    .replace(/\n?\{\{EXTRA_SCRIPTS\}\}/g, extraScripts ? '\n' + extraScripts : '')
     .replace(/\{\{ROOT_HREF\}\}/g, hrefBetween(id, ''))
     .replace(/\{\{FOOTER_LOGO_HREF\}\}/g, assetHref(id, 'assets/about-hero-logo.png'))
     .replace(/\{\{TREE_NAV\}\}/g, treeHtml)
@@ -428,10 +507,26 @@ function renderFullPage(id) {
     .replace(/\{\{DOC_BODY\}\}/g, doc);
 }
 
+function renderUnitRail() {
+  return '<aside class="unit-rail">' +
+    '<div class="unit-rail-title">이 유닛 진행률</div>' +
+    '<div class="unit-rail-pct">0%</div>' +
+    '<div class="unit-rail-sub">0/3 완료</div>' +
+    '<div class="unit-rail-bar"><div class="unit-rail-bar-fill"></div></div>' +
+    '<ul class="unit-rail-steps">' +
+    '<li class="unit-rail-step"><span class="unit-rail-step-dot"></span>학습 목표 확인</li>' +
+    '<li class="unit-rail-step"><span class="unit-rail-step-dot"></span>실습 열어보기</li>' +
+    '<li class="unit-rail-step"><span class="unit-rail-step-dot"></span>퀴즈 통과</li>' +
+    '</ul>' +
+    '<div class="unit-rail-score" style="display:none">획득 점수<strong>0점</strong></div>' +
+    '</aside>';
+}
+
 // ===================== write output =====================
 fs.mkdirSync(ASSETS_OUT, { recursive: true });
 fs.copyFileSync(path.join(DESIGN_DIR, 'style.css'), path.join(ASSETS_OUT, 'style.css'));
 fs.copyFileSync(path.join(DESIGN_DIR, 'nav.js'), path.join(ASSETS_OUT, 'nav.js'));
+fs.copyFileSync(path.join(DESIGN_DIR, 'unit.js'), path.join(ASSETS_OUT, 'unit.js'));
 fs.copyFileSync(path.join(DESIGN_DIR, 'images', 'about-hero-logo.png'), path.join(ASSETS_OUT, 'about-hero-logo.png'));
 
 let count = 0;
